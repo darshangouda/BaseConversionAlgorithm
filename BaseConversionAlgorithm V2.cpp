@@ -9,24 +9,20 @@ using namespace std;
 
 char DIGITS[]  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";;
 
-const long int size1 = 1000000;
-char inputString[size1 * 2];
+const long int MAX = 1000000;
+char inputString[MAX * 2];
 
 // ---------------------------
 // Renamed arrays
 // ---------------------------
-unsigned int integerWork[size1]   = {0};
-unsigned int fractionWork[size1]  = {0};
-unsigned int fractionOut[size1]   = {0};
+unsigned int integerWork[MAX]   = {0};
+unsigned int fractionWork[MAX]  = {0};
+unsigned int fractionOut[MAX]   = {0};
 
 // --------------------------------------------------
-void dis(long int n, long int f = -1, long int k1 = 0, long int num = 0)
+void display(long int n, long int f)
 {
     long int k;
-
-    if (k1 != 0 && num != 0)
-        cout << k1 << "-" << n+1 << "-|";
-
     for (k = n; k >= 0; k--)
         cout << DIGITS[ integerWork[k] ];
 
@@ -47,10 +43,8 @@ int main()
     clock_t start;
     double duration;
 
-    long int rows = size1, trows;
-    long int i, j, k, p;
+    long int i, k, p;
 
-    long int o, m = 0, m1 = 0, l;
 
     long int base1, base2, maxDigitBase2;
     long int integerInputLen = 0;
@@ -61,24 +55,21 @@ int main()
 
     long int fractionLimit = 100;
 
-    int choice = 0, temp, numtemp;
-    int save, value = 0;
+    int choice = 0,save=0;
 
     long int intLenProcessed, carryIndex;
 
     base1 = 10;
-    base2 = 16;
+    base2 = 2;
 
     maxDigitBase2 = base2 - 1;
-    trows = rows;
-    save = 0;
 
 begining:
 
-    rows = trows;
+
 
     // clear buffers
-    for (p = 0; p < rows; p++)
+    for (p = 0; p < MAX; p++)
     {
         inputString[p] = 0;
         integerWork[p] = 0;
@@ -192,7 +183,7 @@ case1_start:
     fractionInputLen = integerInputLen - p;
     integerInputLen  = p;
 
-    carryIndex = 0;
+    carryIndex = 1;
     fracLen = -1;
     intLenProcessed = 1;
 
@@ -208,17 +199,14 @@ case1_start:
         for (i = 0; i < intLenProcessed; i++)
         {
             long int idx = i;
-
             while (integerWork[idx] > maxDigitBase2)
             {
-                if (carryIndex < idx) carryIndex = idx;
                 integerWork[idx+1] += integerWork[idx] / base2;
                 integerWork[idx]   %= base2;
-                idx++;
+                if (carryIndex < ++idx) carryIndex = idx;
             }
         }
-
-        intLenProcessed = carryIndex + 2;
+        intLenProcessed = carryIndex;
     }
 
     // ---------------------------------------------------
@@ -267,12 +255,12 @@ case1_start:
     duration = (std::clock() - start) / (double) CLOCKS_PER_SEC;
 
     highestIntPos = 0;
-    for (p = 0; p < rows; p++)
+    for (p = 0; p < MAX; p++)
         if (integerWork[p] > 0)
             highestIntPos = p;
 
     cout << endl << "EQUIVALENT TO (base)" << base2 << endl;
-    dis(highestIntPos, fracLen);
+    display(highestIntPos, fracLen);
 
     if (save == 1)
     {
