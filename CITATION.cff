@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "BaseConversionAlgorithm"
+authors:
+  - family-names: "Patil"
+    given-names: "Darshangouda"
+    orcid: "https://orcid.org/0009-0002-3638-0220"
+version: "1.0.0"
+date-released: 2025-11-27
+doi: "10.5281/zenodo.17737128"
+url: "https://github.com/darshangouda/BaseConversionAlgorithm"
