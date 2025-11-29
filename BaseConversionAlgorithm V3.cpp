@@ -56,7 +56,7 @@ int main()
     long int intLenProcessed, carryIndex;
 
     base1 = 10;
-    base2 = 2;
+    base2 = 16;
 
     maxDigitBase2 = base2 - 1;
 
@@ -92,6 +92,7 @@ begining:
         cin >> base2;
         cout << "FRACTION LIMIT = ";
         cin >> fractionLimit;
+        maxDigitBase2 = base2 - 1;
         goto begining;
     }
     else if (choice == 3)
@@ -137,7 +138,7 @@ case1_start:
 
     cout << "please wait(processing...)" << endl;
 
-    fractionInputLen = integerInputLen - p;
+    fractionInputLen = integerInputLen - p -1;
     integerInputLen  = p;
 
     carryIndex = 1;
@@ -160,8 +161,9 @@ case1_start:
             {
                 integerWork[idx+1] += integerWork[idx] / base2;
                 integerWork[idx]   %= base2;
-                if (carryIndex < ++idx) carryIndex = idx;
+                idx++;
             }
+            if (carryIndex < idx) carryIndex = idx;
         }
         intLenProcessed = carryIndex;
     }
@@ -171,7 +173,7 @@ case1_start:
     // ---------------------------------------------------
     long int fractionResultIndex = -1;
     bool fractionNotZero = true;
-
+    int maxi=0;
     // Only run fractional loop if there was a fractional part in the input
     if (fractionInputLen > 0)
     {
@@ -181,18 +183,18 @@ case1_start:
             {
                 fractionWork[p] *= base2;
             }
-            for (i = 0; i < fractionInputLen - 1; i++)
+            for (i = 0; i < fractionInputLen; i++)
             {
                 fractionWork[i + 1] += fractionWork[i] / base1;
                 fractionWork[i] %= base1;
             }
 
+
             // store extracted digit
-            fractionOut[++fractionResultIndex] = fractionWork[fractionInputLen - 1];
+            fractionOut[++fractionResultIndex] = fractionWork[fractionInputLen];
 
             // CORRECT: clear working buffer (not fractionOut)
-            fractionWork[fractionInputLen - 1] = 0;
-
+            fractionWork[fractionInputLen] = 0;
             fractionNotZero = false;
             for (p = 0; p < fractionInputLen; p++)
             {
@@ -216,7 +218,7 @@ case1_start:
 
     cout << endl << "EQUIVALENT TO (base)" << base2 << endl;
     display(highestIntPos, fracLen);
-
+    cout<<"MAX="<<maxi<<endl;
     goto begining;
 
     return 0;
