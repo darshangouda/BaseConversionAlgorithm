@@ -103,6 +103,7 @@ begining:
         cin >> fractionLimit;
         cout << "SAVE OUTPUT (1=YES 0=NO) = ";
         cin >> save;
+         maxDigitBase2 = base2 - 1;
         goto begining;
     }
     else if (choice == 3)
@@ -288,3 +289,4 @@ case1_start:
 
     return 0;
 }
+
