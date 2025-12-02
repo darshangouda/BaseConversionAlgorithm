@@ -6,7 +6,7 @@
 
 using namespace std;
 
-char DIGITS[]  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";;
+const char DIGITS[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 const long int MAX = 1000000;
 char inputString[MAX * 2];
@@ -22,8 +22,10 @@ unsigned int fractionOut[MAX]   = {0};
 void display(long int n, long int f)
 {
     long int k;
-    for (k = n; k >= 0; k--)
+    for (k = n; k >= 0; k--){
         cout << DIGITS[ integerWork[k] ];
+        //cout << integerWork[k] <<"|";
+        }
 
     // Only print fractional part if f >= 0 (meaning some fractional digits were produced)
     if (f >= 0 && !(f == 0 && fractionOut[0] == 0))
@@ -126,10 +128,20 @@ case1_start:
     // convert ASCII to numeric (in-place)
     for (i = 0; i < integerInputLen; i++)
     {
-        if (inputString[i] > 57)  // A-F etc
-            inputString[i] -= 7;
-        inputString[i] -= 48;     // '0'
+        if (inputString[i] >= '0' && inputString[i] <= '9')
+        {
+            inputString[i] = inputString[i] - '0';
+        }
+        else if (inputString[i] >= 'A' && inputString[i] <= 'Z')
+        {
+            inputString[i] = inputString[i] - 'A' + 10;   // 10–35
+        }
+        else if (inputString[i] >= 'a' && inputString[i] <= 'z')
+        {
+            inputString[i] = inputString[i] - 'a' + 36;   // 36–61
+        }
     }
+
 
     // copy fraction part reverse into fractionWork[]
     k = 0;
