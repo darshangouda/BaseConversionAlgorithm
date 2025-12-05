@@ -162,11 +162,11 @@ case1_start:
     // ---------------------------------------------------
     for (k = 0; k < integerInputLen; k++)
     {
-        for (p = 0; (integerWork[p] *= base1), p < intLenProcessed; p++) {}
+        for (p = 0; (integerWork[p] *= base1), p <= intLenProcessed; p++) {}
 
         integerWork[0] += inputString[k];
 
-        for (i = 0; i < intLenProcessed; i++)
+        for (i = 0; i <= intLenProcessed; i++)
         {
             long int idx = i;
             while (integerWork[idx] > maxDigitBase2)
@@ -235,3 +235,4 @@ case1_start:
 
     return 0;
 }
+
