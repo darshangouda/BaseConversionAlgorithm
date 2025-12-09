@@ -7,7 +7,7 @@
 
 using namespace std;
 
-char DIGITS[]  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";;
+char DIGITS[]  = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";;
 
 const long int MAX = 1000000;
 char inputString[MAX * 2];
@@ -47,8 +47,7 @@ int main()
 
 
     long int base1, base2, maxDigitBase2;
-    long int integerInputLen = 0;
-    long int fractionInputLen = 0;
+    long int totalInputLen = 0,integerInputLen = 0,fractionInputLen = 0;
 
     long int highestIntPos;
     long int fracLen;            // will hold final fractional length (can be -1 if none)
@@ -60,7 +59,7 @@ int main()
     long int intLenProcessed, carryIndex;
 
     base1 = 10;
-    base2 = 2;
+    base2 = 16;
 
     maxDigitBase2 = base2 - 1;
 
@@ -103,7 +102,7 @@ begining:
         cin >> fractionLimit;
         cout << "SAVE OUTPUT (1=YES 0=NO) = ";
         cin >> save;
-         maxDigitBase2 = base2 - 1;
+        maxDigitBase2 = base2 - 1;
         goto begining;
     }
     else if (choice == 3)
@@ -150,44 +149,48 @@ case1_start:
         goto case1_start;
     }
 
-    integerInputLen = strlen(inputString);
-    cout << "LENGTH = " << integerInputLen << endl;
+    totalInputLen = strlen(inputString);
+    cout << "LENGTH = " << totalInputLen << endl;
 
-    if (integerInputLen > (long)sizeof(inputString))
-    {
-        cout << "STRING SIZE LIMIT = " << sizeof(inputString) << endl;
-        goto case1_start;
-    }
 
     // find decimal point
-    for (p = 0; p < integerInputLen; p++)
+    for (p = 0; p < totalInputLen; p++)
         if (inputString[p] == '.')
             break;
 
     // convert ASCII to numeric (in-place)
-    for (i = 0; i < integerInputLen; i++)
+    for (i = 0; i < totalInputLen; i++)
     {
-        if (inputString[i] > 57)  // A-F etc
-            inputString[i] -= 7;
-        inputString[i] -= 48;     // '0'
+        if (inputString[i] >= '0' && inputString[i] <= '9')
+        {
+            inputString[i] = inputString[i] - '0';
+        }
+        else if (inputString[i] >= 'A' && inputString[i] <= 'Z')
+        {
+            inputString[i] = inputString[i] - 'A' + 10;   // 10–35
+        }
+        else if (inputString[i] >= 'a' && inputString[i] <= 'z')
+        {
+            inputString[i] = inputString[i] - 'a' + 36;   // 36–61
+        }
     }
 
     // copy fraction part reverse into fractionWork[]
     k = 0;
-    for (i = integerInputLen - 1; i > p; i--)
+    for (i = totalInputLen - 1; i > p; i--)
         fractionWork[k++] = inputString[i];
 
     cout << "please wait(processing...)" << endl;
 
     start = std::clock();
 
-    fractionInputLen = integerInputLen - p;
+    fractionInputLen = totalInputLen - p;
     integerInputLen  = p;
 
     carryIndex = 1;
     fracLen = -1;
     intLenProcessed = 1;
-
+    long int idx;
     // ---------------------------------------------------
     // INTEGER PART CONVERSION
     // ---------------------------------------------------
@@ -199,7 +202,7 @@ case1_start:
 
         for (i = 0; i <= intLenProcessed; i++)
         {
-            long int idx = i;
+            idx = i;
             while (integerWork[idx] > maxDigitBase2)
             {
                 integerWork[idx+1] += integerWork[idx] / base2;
@@ -207,6 +210,7 @@ case1_start:
                 idx++;
             }
             if (carryIndex < idx) carryIndex = idx;
+
         }
         intLenProcessed = carryIndex;
     }
@@ -290,5 +294,3 @@ case1_start:
 
     return 0;
 }
-
-
