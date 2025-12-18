@@ -1,15 +1,16 @@
 #include<iostream>
 #include<string.h>
-#include<stdio.h>
-#include<stdlib.h>
+//#include<stdio.h>
+//#include<stdlib.h>
 
 
 using namespace std;
 
 const char DIGITS[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-const long int MAX = 1000000;
-char inputString[MAX * 2];
+
+const long int MAX = 30000;
+char inputString[4094];//console/terminal buffer limitation
 
 // ---------------------------
 // Renamed arrays
@@ -78,7 +79,7 @@ begining:
     cout << "________________________________________________________________________________________________________________" << endl;
     cout << "                 DATA REPRESENTATION" << endl;
     cout << "1.CONVERT  BASE1=" << base1 << "  TO  BASE2=" << base2 << " \n FRACTION LIMIT =" << fractionLimit <<endl;
-    cout << "2.CHANGE THE BASE , FRACTION LIMIT & SAVING OUTPUT?" << endl;
+    cout << "2.CHANGE THE BASE , FRACTION LIMIT" << endl;
     cout << "3.CLEAR SCREEN " << endl;
     cout << "4.EXIT " << endl;
     cout << "ENTER YOUR CHOICE = ";
@@ -148,7 +149,7 @@ case1_start:
     for (i = integerInputLen - 1; i > p; i--)
         fractionWork[k++] = inputString[i];
 
-    cout << "please wait(processing...)" << endl;
+    //cout << "please wait(processing...)" << endl;
 
     fractionInputLen = integerInputLen - p -1;
     integerInputLen  = p;
@@ -185,7 +186,7 @@ case1_start:
     // ---------------------------------------------------
     long int fractionResultIndex = -1;
     bool fractionNotZero = true;
-    int maxi=0;
+
     // Only run fractional loop if there was a fractional part in the input
     if (fractionInputLen > 0)
     {
@@ -228,11 +229,9 @@ case1_start:
         if (integerWork[p] > 0)
             highestIntPos = p;
 
-    cout << endl << "EQUIVALENT TO (base)" << base2 << endl;
+    cout << endl << "EQUIVALENT TO (base" << base2 <<")"<< endl;
     display(highestIntPos, fracLen);
-    cout<<"MAX="<<maxi<<endl;
     goto begining;
 
     return 0;
 }
-
