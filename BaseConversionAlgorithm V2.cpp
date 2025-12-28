@@ -222,7 +222,7 @@ case1_start:
     bool fractionNotZero = true;
 
     // Only run fractional loop if there was a fractional part in the input
-    if (fractionInputLen > 0)
+    if (fractionInputLen > 0 && fractionLimit>0)
     {
         do
         {
@@ -294,3 +294,4 @@ case1_start:
 
     return 0;
 }
+
